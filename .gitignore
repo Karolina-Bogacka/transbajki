@@ -1,4 +1,4 @@
-data/*
+data
 intermediate/*
 models/*
 notebooks/*
@@ -8,3 +8,5 @@ results3/*
 .idea
 /imgs/
 .ipynb_checkpoints/
+ConvLSTM/data
+__pycache__
