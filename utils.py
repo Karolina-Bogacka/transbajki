@@ -22,7 +22,7 @@ def read_bikes(path: str = './data') -> pd.DataFrame:
     return bikes
 
 
-def rented_returned_amount(df: pd.DataFrame) -> pd.DataFrame:
+def rented_returned_amount(df: pd.DataFrame, stations=get_stations()) -> pd.DataFrame:
     """For each station return number of bikes that were just returned and rented"""
     df_copy= df.copy()
     df_copy['prev_station'] = df_copy \
@@ -48,7 +48,7 @@ def rented_returned_amount(df: pd.DataFrame) -> pd.DataFrame:
         .aggregate({'bike_number': len, 'just_returned': sum, 'just_rented': sum}) \
         .reset_index() \
         .rename(columns={'bike_number': 'bike_count'}) \
-        .merge(get_stations(), left_on='station_id', right_on='uid')
+        .merge(stations, left_on='station_id', right_on='uid')
     grouped['just_rented'] = grouped.sort_values(['date']).groupby('station_id').shift(1)['just_rented']
-    return grouped
+    return grouped.fillna(0)
 
